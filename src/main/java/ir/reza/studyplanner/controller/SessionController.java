@@ -34,7 +34,10 @@ public class SessionController {
     }
 
     @GetMapping("/add")
-    public String showAddForm() {
+    public String showAddForm(Model model) {
+
+        model.addAttribute("subjects", subjectService.findAll());
+
         return "add-session";
     }
 

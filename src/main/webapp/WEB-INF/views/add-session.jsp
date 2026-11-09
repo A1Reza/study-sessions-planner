@@ -32,7 +32,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 12px;
             margin: 10px 0 20px;
@@ -58,10 +58,10 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
-
     <div class="card">
 
         <h1>Add Study Session</h1>
@@ -69,13 +69,18 @@
         <form action="${pageContext.request.contextPath}/sessions/save"
               method="post">
 
-            <label for="subjectId">Subject ID</label>
+            <label for="subjectId">Subject</label>
 
-            <input type="number"
-                   id="subjectId"
-                   name="subjectId"
-                   min="1"
-                   required>
+            <select id="subjectId" name="subjectId" required>
+                <option value="">Select a subject</option>
+
+                <c:forEach var="subject" items="${subjects}">
+                    <option value="${subject.id}">
+                            ${subject.name}
+                    </option>
+                </c:forEach>
+
+            </select>
 
             <label for="minutes">Duration (Minutes)</label>
 
@@ -92,9 +97,7 @@
                       rows="4"
                       required></textarea>
 
-            <button type="submit">
-                Save Session
-            </button>
+            <button type="submit">Save Session</button>
 
         </form>
 
@@ -103,7 +106,6 @@
         </a>
 
     </div>
-
 </div>
 
 </body>

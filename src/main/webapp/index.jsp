@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +25,7 @@
         }
 
         .navbar {
-            background: #ffffff;
+            background: white;
             padding: 20px 7%;
             display: flex;
             justify-content: space-between;
@@ -133,7 +134,7 @@
             line-height: 1.6;
         }
 
-        .sessions {
+        .sessions, .subjects {
             background: white;
             padding: 25px;
             border-radius: 12px;
@@ -165,14 +166,6 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: bold;
-        }
-
-        .subjects {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.04);
         }
 
         .subject-tag {
@@ -208,11 +201,7 @@
         }
 
         @media (max-width: 700px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .actions {
+            .stats, .actions {
                 grid-template-columns: 1fr;
             }
 
@@ -226,7 +215,6 @@
             }
         }
     </style>
-
 </head>
 
 <body>
@@ -238,7 +226,7 @@
     </div>
 
     <div class="nav-links">
-        <a href="${pageContext.request.contextPath}/">Home</a>
+        <a href="${pageContext.request.contextPath}/dashboard">Home</a>
         <a href="${pageContext.request.contextPath}/sessions">Sessions</a>
         <a href="${pageContext.request.contextPath}/subjects">Subjects</a>
         <a href="${pageContext.request.contextPath}/status">Status</a>
@@ -249,26 +237,26 @@
 <div class="container">
 
     <section class="welcome">
-
         <h1>Welcome to Study Planner 👋</h1>
 
         <p>
             Organize your study sessions, track your learning time,
             and manage all your subjects in one place.
         </p>
-
     </section>
+
+    <!-- Statistics -->
 
     <section class="stats">
 
         <div class="stat-card">
             <span>Total Study Sessions</span>
-            <h2>${sessions.size()}</h2>
+            <h2>${fn:length(sessions)}</h2>
         </div>
 
         <div class="stat-card">
             <span>Total Subjects</span>
-            <h2>${subjects.size()}</h2>
+            <h2>${fn:length(subjects)}</h2>
         </div>
 
         <div class="stat-card">
@@ -277,6 +265,8 @@
         </div>
 
     </section>
+
+    <!-- Quick Actions -->
 
     <h2 class="section-title">Quick Actions</h2>
 
@@ -288,8 +278,7 @@
             <h3>📚 View Sessions</h3>
 
             <p>
-                Browse all your study sessions and check
-                their details.
+                Browse all your study sessions and check their details.
             </p>
 
         </a>
@@ -300,8 +289,7 @@
             <h3>➕ Add New Session</h3>
 
             <p>
-                Create a new study session and record
-                your learning time.
+                Create a new study session and record your learning time.
             </p>
 
         </a>
@@ -312,8 +300,7 @@
             <h3>📖 View Subjects</h3>
 
             <p>
-                Explore all available subjects in your
-                study planner.
+                Explore all available subjects in your study planner.
             </p>
 
         </a>
@@ -324,13 +311,14 @@
             <h3>⚙️ Application Status</h3>
 
             <p>
-                Check whether the Study Planner application
-                is running correctly.
+                Check whether the Study Planner application is running correctly.
             </p>
 
         </a>
 
     </section>
+
+    <!-- Recent Sessions -->
 
     <section class="sessions">
 
@@ -349,7 +337,19 @@
                             <h4>Study Session #${session.id}</h4>
 
                             <p>
-                                Subject ID: ${session.subjectId}
+                                Subject:
+                                <c:set var="subjectFound" value="false"/>
+
+                                <c:forEach var="subject" items="${subjects}">
+                                    <c:if test="${subject.id eq session.subjectId}">
+                                        ${subject.name}
+                                        <c:set var="subjectFound" value="true"/>
+                                    </c:if>
+                                </c:forEach>
+
+                                <c:if test="${not subjectFound}">
+                                    Unknown Subject
+                                </c:if>
                             </p>
 
                             <p>
@@ -357,7 +357,7 @@
                             </p>
 
                             <p>
-                                Notes: ${session.notes}
+                                Notes: <c:out value="${session.notes}"/>
                             </p>
 
                             <a href="${pageContext.request.contextPath}/sessions/detail?id=${session.id}">
@@ -382,19 +382,37 @@
 
     </section>
 
+    <!-- Available Subjects -->
+
     <section class="subjects">
 
         <h2 class="section-title">Available Subjects</h2>
 
-        <c:forEach var="subject" items="${subjects}">
+        <c:choose>
 
-            <span class="subject-tag">
-                    ${subject.name}
-            </span>
+            <c:when test="${not empty subjects}">
 
-        </c:forEach>
+                <c:forEach var="subject" items="${subjects}">
+
+                    <span class="subject-tag">
+                        <c:out value="${subject.name}"/>
+                    </span>
+
+                </c:forEach>
+
+            </c:when>
+
+            <c:otherwise>
+
+                <p>No subjects available.</p>
+
+            </c:otherwise>
+
+        </c:choose>
 
     </section>
+
+    <!-- Application Status -->
 
     <div class="status">
 

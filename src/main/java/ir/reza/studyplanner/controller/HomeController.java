@@ -1,8 +1,9 @@
 package ir.reza.studyplanner.controller;
 
+import ir.reza.studyplanner.model.Subject;
 import ir.reza.studyplanner.model.StudySession;
-import ir.reza.studyplanner.service.StudySessionService;
 import ir.reza.studyplanner.service.SubjectService;
+import ir.reza.studyplanner.service.StudySessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,24 +19,30 @@ public class HomeController {
     public HomeController(
             StudySessionService studySessionService,
             SubjectService subjectService) {
+
         this.studySessionService = studySessionService;
         this.subjectService = subjectService;
     }
 
-    @GetMapping("/")
-    public String home(Model model) {
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
 
         List<StudySession> sessions = studySessionService.findAll();
 
-        model.addAttribute("sessions", sessions);
-        model.addAttribute("subjects", subjectService.findAll());
+        List<Subject> subjects = subjectService.findAll();
 
         int totalMinutes = sessions.stream()
                 .mapToInt(StudySession::getMinutes)
                 .sum();
 
+        model.addAttribute("sessions", sessions);
+        model.addAttribute("subjects", subjects);
         model.addAttribute("totalMinutes", totalMinutes);
 
-        return "index";
+        System.out.println("Sessions: " + sessions.size());
+        System.out.println("Subjects: " + subjects.size());
+        System.out.println("Total Minutes: " + totalMinutes);
+
+        return "forward:/index.jsp";
     }
 }

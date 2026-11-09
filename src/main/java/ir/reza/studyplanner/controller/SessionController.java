@@ -39,7 +39,7 @@ public class SessionController {
     }
 
     @GetMapping("/detail")
-    public String findById(@RequestParam Long id, Model model) {
+    public String findById(@RequestParam("id") Long id, Model model) {
 
         StudySession session = studySessionService.findById(id);
 
@@ -54,9 +54,9 @@ public class SessionController {
 
     @PostMapping("/save")
     public String add(
-            @RequestParam Long subjectId,
-            @RequestParam int minutes,
-            @RequestParam String notes) {
+            @RequestParam("subjectId") Long subjectId,
+            @RequestParam("minutes") int minutes,
+            @RequestParam("notes") String notes) {
 
         StudySession session = new StudySession(
                 null,
@@ -68,22 +68,5 @@ public class SessionController {
         studySessionService.add(session);
 
         return "redirect:/sessions";
-    }
-
-    @GetMapping("/home")
-    public String home(Model model) {
-
-        List<StudySession> sessions = studySessionService.findAll();
-
-        model.addAttribute("sessions", sessions);
-        model.addAttribute("subjects", subjectService.findAll());
-
-        int totalMinutes = sessions.stream()
-                .mapToInt(StudySession::getMinutes)
-                .sum();
-
-        model.addAttribute("totalMinutes", totalMinutes);
-
-        return "redirect:/";
     }
 }

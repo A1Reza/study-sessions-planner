@@ -43,6 +43,17 @@ public class HomeController {
         System.out.println("Subjects: " + subjects.size());
         System.out.println("Total Minutes: " + totalMinutes);
 
-        return "forward:/index.jsp";
+        return "forward:/index.jsp"; //in servlet: request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }
+/*
+forward: means:
+"Pass the request to /index.jsp on the same server side, without the browser knowing or the URL changing."
+
+Forward features:
+
+It's done in the same HTTP request (one request, one response).
+The browser URL doesn't change; the user still sees /dashboard.
+The request and model attributes are preserved (because it's the same request).
+It's server-side, the browser isn't involved.
+*/

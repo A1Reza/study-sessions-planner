@@ -71,7 +71,7 @@
 
             <label for="subjectId">Subject</label>
 
-            <select id="subjectId" name="subjectId" required>
+            <select id="subjectId" name="subjectId" required>  <%--Drop-down list, Select element or Select control, Combo box--%>
                 <option value="">Select a subject</option>
 
                 <c:forEach var="subject" items="${subjects}">

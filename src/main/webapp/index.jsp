@@ -358,6 +358,8 @@
 
                             <p>
                                 Notes: <c:out value="${session.notes}"/>
+                                <%--<c:out value="..."/> → Escapes the output (i.e. makes <, >, & safe).
+                                 This is necessary to prevent XSS; since notes is user input, ${session.notes} should never be written directly.--%>
                             </p>
 
                             <a href="${pageContext.request.contextPath}/sessions/detail?id=${session.id}">

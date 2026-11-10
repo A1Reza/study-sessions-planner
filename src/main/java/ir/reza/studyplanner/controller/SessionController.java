@@ -57,7 +57,7 @@ public class SessionController {
 
     @PostMapping("/save")
     public String add(
-            @RequestParam("subjectId") Long subjectId,
+            @RequestParam("subjectId") Long subjectId, //name="subjectId"
             @RequestParam("minutes") int minutes,
             @RequestParam("notes") String notes) {
 

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
@@ -266,7 +266,6 @@
 
     </section>
 
-    <!-- Quick Actions -->
 
     <h2 class="section-title">Quick Actions</h2>
 
@@ -318,7 +317,6 @@
 
     </section>
 
-    <!-- Recent Sessions -->
 
     <section class="sessions">
 
@@ -384,7 +382,6 @@
 
     </section>
 
-    <!-- Available Subjects -->
 
     <section class="subjects">
 
@@ -414,7 +411,6 @@
 
     </section>
 
-    <!-- Application Status -->
 
     <div class="status">
 

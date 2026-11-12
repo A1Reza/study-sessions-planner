@@ -3,6 +3,7 @@ package ir.reza.studyplanner.controller;
 import ir.reza.studyplanner.model.StudySession;
 import ir.reza.studyplanner.service.StudySessionService;
 import ir.reza.studyplanner.service.SubjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class SessionController {
     private final StudySessionService studySessionService;
     private final SubjectService subjectService;
 
+    @Autowired
     public SessionController(
             StudySessionService studySessionService,
             SubjectService subjectService) {

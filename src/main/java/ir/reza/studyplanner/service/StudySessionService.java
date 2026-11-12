@@ -1,14 +1,15 @@
 package ir.reza.studyplanner.service;
 
-import ir.reza.studyplanner.model.StudySession;
+import ir.reza.studyplanner.dto.request.StudySessionRequestDto;
+import ir.reza.studyplanner.dto.response.StudySessionResponseDto;
 
 import java.util.List;
 
 public interface StudySessionService {
 
-    List<StudySession> findAll();
+    List<StudySessionResponseDto> findAll();
 
-    StudySession findById(Long id);
+    StudySessionResponseDto findById(Long id);
 
-    void add(StudySession session);
+    void add(StudySessionRequestDto dto);
 }

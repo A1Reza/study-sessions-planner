@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rezaa
-  Date: 11/9/2026
-  Time: 11:57 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
@@ -12,6 +5,7 @@
 <html>
 <head>
     <title>Study Sessions Planner</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,13 +55,15 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
 
     <h1>Study Sessions</h1>
 
-    <a class="button" href="${pageContext.request.contextPath}/sessions/add">
+    <a class="button"
+       href="${pageContext.request.contextPath}/sessions/add">
         Add New Session
     </a>
 
@@ -75,13 +71,22 @@
 
         <div class="card">
 
-            <h3>Session #${session.id}</h3>
+            <h3>Session #<c:out value="${session.id}"/></h3>
 
-            <p>Subject ID: ${session.subjectId}</p>
+            <p>
+                Subject ID:
+                <c:out value="${session.subjectId}"/>
+            </p>
 
-            <p>Duration: ${session.minutes} minutes</p>
+            <p>
+                Duration:
+                <c:out value="${session.minutes}"/> minutes
+            </p>
 
-            <p>Notes: ${session.notes}</p>
+            <p>
+                Notes:
+                <c:out value="${session.notes}"/>
+            </p>
 
             <a href="${pageContext.request.contextPath}/sessions/detail?id=${session.id}">
                 View Details
@@ -96,7 +101,8 @@
     <c:forEach var="subject" items="${subjects}">
 
         <span class="subject">
-            ${subject.id} - ${subject.name}
+            <c:out value="${subject.id}"/> -
+            <c:out value="${subject.name}"/>
         </span>
 
     </c:forEach>

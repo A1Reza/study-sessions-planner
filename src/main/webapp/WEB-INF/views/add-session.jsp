@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rezaa
-  Date: 11/10/2026
-  Time: 12:01 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
@@ -56,6 +49,14 @@
             color: #1976d2;
             text-decoration: none;
         }
+
+        .error-list {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px 30px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -66,20 +67,30 @@
 
         <h1>Add Study Session</h1>
 
+        <c:if test="${not empty errors}">
+            <ul class="error-list">
+                <c:forEach var="error" items="${errors}">
+                    <li>
+                        <c:out value="${error.defaultMessage}"/>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:if>
+
         <form action="${pageContext.request.contextPath}/sessions/save"
               method="post">
 
             <label for="subjectId">Subject</label>
 
-            <select id="subjectId" name="subjectId" required>  <%--Drop-down list, Select element or Select control, Combo box--%>
+            <select id="subjectId" name="subjectId" required>
                 <option value="">Select a subject</option>
 
                 <c:forEach var="subject" items="${subjects}">
-                    <option value="${subject.id}">
-                            ${subject.name}
+                    <option value="${subject.id}"
+                        ${session.subjectId == subject.id ? 'selected' : ''}>
+                        <c:out value="${subject.name}"/>
                     </option>
                 </c:forEach>
-
             </select>
 
             <label for="minutes">Duration (Minutes)</label>
@@ -88,6 +99,7 @@
                    id="minutes"
                    name="minutes"
                    min="1"
+                   value="${session.minutes > 0 ? session.minutes : ''}"
                    required>
 
             <label for="notes">Notes</label>
@@ -95,7 +107,8 @@
             <textarea id="notes"
                       name="notes"
                       rows="4"
-                      required></textarea>
+                      maxlength="255"
+                      required><c:out value="${session.notes}"/></textarea>
 
             <button type="submit">Save Session</button>
 

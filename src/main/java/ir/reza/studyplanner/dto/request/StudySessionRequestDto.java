@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Size;
 
 public record StudySessionRequestDto(
 
-        @NotNull(message = "Subject is required")
+        @NotNull(message = "Please select a subject")
         Long subjectId,
 
-        @Min(value = 1, message = "Minutes must be at least 1")
+        @Min(value = 1, message = "Duration must be at least 1 minute")
         int minutes,
 
         @NotBlank(message = "Notes cannot be empty")

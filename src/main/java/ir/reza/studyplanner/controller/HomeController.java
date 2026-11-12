@@ -1,7 +1,7 @@
 package ir.reza.studyplanner.controller;
 
-import ir.reza.studyplanner.model.Subject;
-import ir.reza.studyplanner.model.StudySession;
+import ir.reza.studyplanner.dto.response.StudySessionResponseDto;
+import ir.reza.studyplanner.dto.response.SubjectResponseDto;
 import ir.reza.studyplanner.service.SubjectService;
 import ir.reza.studyplanner.service.StudySessionService;
 import org.springframework.stereotype.Controller;
@@ -27,12 +27,14 @@ public class HomeController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
 
-        List<StudySession> sessions = studySessionService.findAll();
+        List<StudySessionResponseDto> sessions =
+                studySessionService.findAll();
 
-        List<Subject> subjects = subjectService.findAll();
+        List<SubjectResponseDto> subjects =
+                subjectService.findAll();
 
         int totalMinutes = sessions.stream()
-                .mapToInt(StudySession::getMinutes)
+                .mapToInt(StudySessionResponseDto::minutes)
                 .sum();
 
         model.addAttribute("sessions", sessions);
@@ -43,17 +45,6 @@ public class HomeController {
         System.out.println("Subjects: " + subjects.size());
         System.out.println("Total Minutes: " + totalMinutes);
 
-        return "forward:/index.jsp"; //in servlet: request.getRequestDispatcher("/index.jsp").forward(request, response);
+        return "forward:/index.jsp";
     }
 }
-/*
-forward: means:
-"Pass the request to /index.jsp on the same server side, without the browser knowing or the URL changing."
-
-Forward features:
-
-It's done in the same HTTP request (one request, one response).
-The browser URL doesn't change; the user still sees /dashboard.
-The request and model attributes are preserved (because it's the same request).
-It's server-side, the browser isn't involved.
-*/

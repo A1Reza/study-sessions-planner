@@ -1,9 +1,10 @@
 package ir.reza.studyplanner.service.impl;
 
+import ir.reza.studyplanner.dto.response.SubjectResponseDto;
+import ir.reza.studyplanner.mapper.SubjectMapper;
 import ir.reza.studyplanner.model.Subject;
 import ir.reza.studyplanner.repository.SubjectRepository;
 import ir.reza.studyplanner.service.SubjectService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,19 +13,33 @@ import java.util.List;
 public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final SubjectMapper subjectMapper;
 
-    @Autowired
-    public SubjectServiceImpl(SubjectRepository subjectRepository) {
+    public SubjectServiceImpl(
+            SubjectRepository subjectRepository,
+            SubjectMapper subjectMapper) {
+
         this.subjectRepository = subjectRepository;
+        this.subjectMapper = subjectMapper;
     }
 
     @Override
-    public List<Subject> findAll() {
-        return subjectRepository.findAll();
+    public List<SubjectResponseDto> findAll() {
+        return subjectRepository.findAll()
+                .stream()
+                .map(subjectMapper::toResponseDto)
+                .toList();
     }
 
     @Override
-    public Subject findById(Long id) {
-        return subjectRepository.findById(id);
+    public SubjectResponseDto findById(Long id) {
+
+        Subject subject = subjectRepository.findById(id);
+
+        if (subject == null) {
+            return null;
+        }
+
+        return subjectMapper.toResponseDto(subject);
     }
 }

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rezaa
-  Date: 11/10/2026
-  Time: 12:02 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
@@ -49,29 +42,29 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
-
     <div class="card">
 
         <h1>Session Details</h1>
 
-        <h3>Session #${session.id}</h3>
+        <h3>Session #<c:out value="${session.id}"/></h3>
 
         <p>
             <strong>Subject ID:</strong>
-            ${session.subjectId}
+            <c:out value="${session.subjectId}"/>
         </p>
 
         <p>
             <strong>Duration:</strong>
-            ${session.minutes} minutes
+            <c:out value="${session.minutes}"/> minutes
         </p>
 
         <p>
             <strong>Notes:</strong>
-            ${session.notes}
+            <c:out value="${session.notes}"/>
         </p>
 
         <a href="${pageContext.request.contextPath}/sessions">
@@ -79,7 +72,6 @@
         </a>
 
     </div>
-
 </div>
 
 </body>
